@@ -8,8 +8,8 @@ public class SimpleAnagrams {
 
     public static boolean checkUsingSorting(String word, String anagram){
 
-        if(word==null || word.isEmpty() || word == null || word.isEmpty()){
-            throw new IllegalArgumentException("word or anagram are null or empty");
+        if(word == null || word.isEmpty() || anagram==null || anagram.isEmpty()){
+            throw new IllegalArgumentException();
         }
 
         char[] wordArray = word.toLowerCase().toCharArray();
@@ -23,39 +23,38 @@ public class SimpleAnagrams {
 
     public static boolean checkUsingSubstring(String word, String anagram){
 
-        if(word==null || word.isEmpty() || anagram == null || anagram.isEmpty()){
-            throw new IllegalArgumentException("word or anagram are null or empty");
+        if(word == null || word.isEmpty() || anagram==null || anagram.isEmpty()){
+            throw new IllegalArgumentException();
         }
 
         char[] wordArray = word.toLowerCase().toCharArray();
-
         for(char c : wordArray){
             int i = anagram.toLowerCase().indexOf(c);
             if(i == -1){
                 return false;
             }
+            // endIndex is exclusive
             anagram = anagram.substring(0,i) + anagram.substring(i+1,anagram.length());
         }
-
         return anagram.length() == 0;
     }
 
-    public static boolean checkUsingStringBuilder(String word, String anagram){        
+    public static boolean checkUsingStringBuilder(String word, String anagram){   
 
-        if(word==null || word.isEmpty() || anagram == null || anagram.isEmpty()){
-            throw new IllegalArgumentException("word or anagram are null or empty");
+        if(word == null || word.isEmpty() || anagram==null || anagram.isEmpty()){
+            throw new IllegalArgumentException();
         }
 
         char[] wordArray = word.toLowerCase().toCharArray();
-        StringBuilder result = new StringBuilder(anagram.toLowerCase());
+        StringBuilder sb = new StringBuilder(anagram.toLowerCase());
 
         for(char c : wordArray){
-            int i = result.indexOf(String.valueOf(c));
-            if( i == -1){
+            int i = sb.indexOf(String.valueOf(c));
+            if(i == -1){
                 return false;
             }
-            result.deleteCharAt(i);
+            sb.deleteCharAt(i);
         }
-        return result.length() == 0;
+        return sb.length() == 0;
     }
 }
