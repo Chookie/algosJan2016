@@ -34,7 +34,7 @@ public class Graph {
         }
     }
 
-    public static class Vertex implements Comparable<Vertex{
+    public static class Vertex implements Comparable<Vertex> {
         private final String name;
         private final Map<Vertex,Integer> neighbours = new HashMap<>();
         private int weightFromSource = Integer.MAX_VALUE; // Infinity
@@ -73,6 +73,17 @@ public class Graph {
         public int compareTo(Vertex otherVertix) {
             return Integer.compare(this.getWeightFromSource(), otherVertix.getWeightFromSource() );
         }
+
+        private void printPath() {
+            if (this == this.previousToSource) {
+                System.out.printf("%s", this.name);
+            } else if (this.previousToSource == null) {
+                System.out.printf("%s(unreached)", this.name);
+            } else {
+                this.previousToSource.printPath();
+                System.out.printf(" -> %s(%d)", this.name, this.weightFromSource);
+            }
+        }
     }
 
     private final Map<String, Vertex> graph;
@@ -85,8 +96,12 @@ public class Graph {
 
         // Add all vertex's to graph
         for(Edge e : edges) {
-            Vertex v1 = graph.putIfAbsent(e.getVertex1Name(), new Vertex(e.getVertex2Name());
-            Vertex v2 = graph.putIfAbsent(e.getVertex1Name(), new Vertex(e.getVertex1Name());
+            graph.putIfAbsent(e.getVertex1Name(), new Vertex(e.getVertex1Name()));
+            graph.putIfAbsent(e.getVertex2Name(), new Vertex(e.getVertex2Name()));
+
+            Vertex v1 = graph.get(e.getVertex1Name());
+            Vertex v2 = graph.get(e.getVertex2Name());
+
             v1.getNeighbours().put(v2,e.getWeight());
             // v2.getNeighbours().put(v1,e.getWeight()); // If bi-directional
         }
@@ -94,15 +109,15 @@ public class Graph {
 
     public void dijkstra(String sourceVertexName){
 
-        if(!graph.containsKey(sourceVertexName))){
+        if(!graph.containsKey(sourceVertexName)){
             System.err.println("Graph does not contain Vertex " + sourceVertexName);
             return;
         }
 
         Vertex source = graph.get(sourceVertexName);
-        NavigableSet<Vertex> connections = new TreeSet<Vertex>;
+        NavigableSet<Vertex> connections = new TreeSet<Vertex>();
 
-        // Set initial state of connections
+        // Set initial state of connections and add
         for(Vertex v : graph.values()){
             v.setPreviousToSource(source == v ? source : null);
             v.setWeightFromSource(source == v ? 0 : Integer.MAX_VALUE);
@@ -123,7 +138,38 @@ public class Graph {
                 break;
             }
 
+            // Look at distance to each neighbour
+            for(Map.Entry<Vertex, Integer> neighbour : fromVertex.getNeighbours().entrySet()){
+                Vertex neighbourVertex = neighbour.getKey();
+                int neighbourWeight = neighbour.getValue();
 
+                final int alternateWeight = fromVertex.getWeightFromSource() + neighbourWeight;
+                if(alternateWeight < neighbourVertex.getWeightFromSource()){
+                    connections.remove(fromVertex);
+                    fromVertex.setWeightFromSource(alternateWeight);
+                    fromVertex.setPreviousToSource(neighbourVertex);
+                }
+            }
+        }
+    }
+
+
+    /** Prints a path from the source to the specified vertex */
+    public void printPath(String endName) {
+        if (!graph.containsKey(endName)) {
+            System.err.printf("Graph doesn't contain end vertex '%s'%n", endName);
+            return;
+        }
+
+        graph.get(endName).printPath();
+        System.out.println();
+    }
+
+    /** Prints the path from the source to every vertex (output order is not guaranteed) */
+    public void printAllPaths() {
+        for (Vertex v : graph.values()) {
+            v.printPath();
+            System.out.println();
         }
     }
 }

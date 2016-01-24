@@ -5,7 +5,7 @@ public class DijkstraTests {
     @Test
     public void testShortestPath(){
         // Create
-        private static final Graph.Edge[] GRAPH = {
+        final Graph.Edge[] GRAPH = {
                 new Graph.Edge("a", "b", 7),
                 new Graph.Edge("a", "c", 9),
                 new Graph.Edge("a", "f", 14),
@@ -16,8 +16,8 @@ public class DijkstraTests {
                 new Graph.Edge("d", "e", 6),
                 new Graph.Edge("e", "f", 9),
         };
-        private static final String START = "a";
-        private static final String END = "e";
+        final String START = "a";
+        final String END = "e";
 
 
         Graph g = new Graph(GRAPH);
