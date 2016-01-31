@@ -1,15 +1,19 @@
 import org.junit.Test;
 
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
+
 public class EncodeSpacesInStringTests {
 
     @Test
     public void testEncodeSpaces(){
-        String unencoded = "Mr John Smith    ";
+        char[] unencoded = "Mr John Smith    ".toCharArray();
         int length = 13;
-        String encoded = "Mr%20John%20Smith";
+        char[] encoded = "Mr%20John%20Smith".toCharArray();
 
-        String result = EncodeSpacesInString.encode(unencoded.toCharArray());
+        char[] result = EncodeSpacesInString.encode(unencoded,length);
 
-        assertEquals(result, encoded);
+        assertTrue(Arrays.equals(result, encoded));
     }
 }
