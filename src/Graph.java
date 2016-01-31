@@ -115,7 +115,7 @@ public class Graph {
         }
 
         Vertex source = graph.get(sourceVertexName);
-        NavigableSet<Vertex> connections = new TreeSet<Vertex>();
+        NavigableSet<Vertex> connections = new TreeSet<>();
 
         // Set initial state of connections and add
         for(Vertex v : graph.values()){
