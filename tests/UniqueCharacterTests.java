@@ -105,4 +105,43 @@ public class UniqueCharacterTests {
 
         UniqueCharacters.inPlaceLoop(null);
     }
+
+
+
+
+    @Test
+    public void inPlaceArrayOnStringWithDuplicateCharactersReturnsFalse(){
+
+        assertFalse(UniqueCharacters.inPlaceArray("sTutUa"));
+    }
+
+    @Test
+    public void inPlaceArrayOnStringWithTwoCharactersEndCharactersReturnsFalse(){
+
+        assertFalse(UniqueCharacters.inPlaceArray("ee"));
+    }
+
+    @Test
+    public void inPlaceArrayOnStringWithDuplicateAtEndCharactersReturnsFalse(){
+
+        assertFalse(UniqueCharacters.inPlaceArray("abcdee"));
+    }
+
+    @Test
+    public void inPlaceArrayOnStringWithDuplicateAtStartCharactersReturnsFalse(){
+
+        assertFalse(UniqueCharacters.inPlaceArray("aabcde"));
+    }
+
+    @Test
+    public void inPlaceArrayOnUniqueCharactersReturnsTrue(){
+
+        assertTrue(UniqueCharacters.inPlaceArray("saivw"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void inPlaceArrayOnNullStringThrowsException(){
+
+        UniqueCharacters.inPlaceArray(null);
+    }
 }

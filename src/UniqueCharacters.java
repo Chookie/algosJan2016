@@ -4,7 +4,29 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
+/**
+ * Cracking the coding interview page 73 exercise 1.1
+ */
 public class UniqueCharacters {
+
+    public static boolean inPlaceArray(String input){
+
+        Validate.notNull(input,"input cannot be null");
+        // Assume ANSI so 128 characters max
+        if(input.length() > 128){
+            return false;
+        }
+
+        boolean[] found = new boolean[128];
+        for(int i=0; i<input.length(); i++){
+            int ch = input.toUpperCase().charAt(i);
+            if(found[ch]){
+                return false;
+            }
+            found[ch] = true;
+        }
+        return true;
+    }
 
     public static boolean inPlaceLoop(String input) {
 
